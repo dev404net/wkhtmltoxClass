@@ -29,6 +29,10 @@ namespace websiteurltopdf
             get { return pdfFileInfo; }
         }
 
+        /// <summary>
+        /// Create PDF method!
+        /// </summary>
+        /// <returns></returns>
         public string CreatePdf()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
