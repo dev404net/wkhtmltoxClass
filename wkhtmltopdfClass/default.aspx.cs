@@ -24,23 +24,20 @@ namespace wkhtmltopdfClass
         private void createPDF()
         {
             string WkhtmltopdfPath = ConfigurationManager.AppSettings["wkhtmltopdfPath"];
-            Pdf MyPdf = new Pdf(WkhtmltopdfPath);    
-            MemoryStream mstream = MyPdf.makePdf(tbUrl.Text);
-            if (mstream != null)
+            Pdf MyPdf = new Pdf(WkhtmltopdfPath);
+            string PdfFileName = "codeTux";
+            
+            if (MyPdf.makePdf(tbUrl.Text, PdfFileName))
             {
-                byte[] byteArray = mstream.ToArray();
-                mstream.Flush();
-                mstream.Close();
-                Response.Clear();
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + "createdPdf.pdf");
-                Response.AddHeader("Content-Length", byteArray.Length.ToString());
-                Response.ContentType = "application/pdf-stream";
-                Response.BinaryWrite(byteArray);
-                mstream.Dispose();
-            }
-            else
-            {
-                mstream.Dispose();
+                using (MyPdf.PdfMemoryStream)
+                {
+                    byte[] byteArray = MyPdf.PdfMemoryStream.ToArray();
+                    Response.Clear();
+                    Response.AddHeader("Content-Disposition", "attachment; filename=" + MyPdf.PdfFileInfo.Name);
+                    Response.AddHeader("Content-Length", byteArray.Length.ToString());
+                    Response.ContentType = "application/pdf-stream";
+                    Response.BinaryWrite(byteArray);
+                }
             }
         }
     }

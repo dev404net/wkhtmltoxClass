@@ -9,34 +9,35 @@ using System.Configuration;
 
 namespace wkhtmltopdfClass
 {
+    /// <summary>
+    /// Class to create a PDF file object.
+    /// Currently creates a memory stream of a PDF file and
+    /// a FileInfo relating to the PDF file.
+    /// </summary>
     public class Pdf
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="CurrentWkhtmlToPdfPath">wkhtmltopdf exe file path</param>
         public Pdf(string CurrentWkhtmlToPdfPath)
         {
             wkhtmltopdfPath = CurrentWkhtmlToPdfPath;
-        }
+        }//constructor
 
         private string wkhtmltopdfPath;
         private string tempPath = ConfigurationManager.AppSettings["tempPath"];
-
-        /// <summary>
-        /// Used to copy the stream outputed from the process
-        /// and paste into the initialsed empty stream.
-        /// </summary>
-        /// <param name="input">Stream outputed from process</param>
-        /// <param name="output">Stream to copy into.</param>
-        public static void CopyStream(Stream input, Stream output)
+        private MemoryStream pdfMemoryStream;
+        public MemoryStream PdfMemoryStream
         {
-            byte[] buffer = new byte[32768];
-            int read;
-            while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+            get { return pdfMemoryStream; }
+            set
             {
-                output.Write(buffer, 0, read);
+                pdfMemoryStream = value;
             }
+        }
+
+        private FileInfo pdfFileInfo;
+        public FileInfo PdfFileInfo
+        {
+            get { return pdfFileInfo; }
+            set { pdfFileInfo = value; }
         }
 
         /// <summary>
@@ -47,43 +48,42 @@ namespace wkhtmltopdfClass
         /// </summary>
         /// <param name="CurrentUrl">Website URL to convert to a PDF</param>
         /// <returns></returns>
-        public MemoryStream makePdf(string CurrentUrl)
+        public bool makePdf(string CurrentUrl, string PdfFileName)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             DateTime NowDateTime = DateTime.Now;
-            string filenameImage = "wkhtmltopdf" + NowDateTime.ToString("_yyyy-MM-dd_hh-mm-ss") + ".pdf";
+            string filenameImage = PdfFileName + "-" + NowDateTime.ToString("_yyyy-MM-dd_hh-mm-ss") + ".pdf";
+            filenameImage = filenameImage.Replace(" ", "_");
             string pdfPath = (tempPath + filenameImage);
             startInfo.FileName = wkhtmltopdfPath;
             startInfo.Arguments = CurrentUrl + " " + pdfPath;
-            MemoryStream pdfStream = new MemoryStream();
             try
             {
-                Process MyProcess = Process.Start(startInfo);
-                MyProcess.WaitForExit();
-                if (File.Exists(pdfPath))
+                using (Process MyProcess = Process.Start(startInfo))
                 {
-                   
-                    using (FileStream pdfFileStream = File.OpenRead(pdfPath))
+                    MyProcess.WaitForExit();
+                    if (File.Exists(pdfPath))
                     {
-                        pdfStream.SetLength(pdfFileStream.Length);
-                        pdfFileStream.Read(pdfStream.GetBuffer(), 0, (int)pdfFileStream.Length);
+
+                        using (FileStream pdfFileStream = File.OpenRead(pdfPath))
+                        {
+                            pdfMemoryStream = new MemoryStream();
+                            pdfMemoryStream.SetLength(pdfFileStream.Length);
+                            pdfFileStream.Read(pdfMemoryStream.GetBuffer(), 0, (int)pdfFileStream.Length);
+                        }
+                        pdfFileInfo = new FileInfo(pdfPath);
+                        File.Delete(pdfPath);
+                        return true;
                     }
-                    FileInfo pdfFileInfo = new FileInfo(pdfPath);
-                    File.Delete(pdfPath);
-                    return pdfStream;
-                }
-                else
-                {
-                    return null;
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             catch
             {
-                return null;
-            }
-            finally
-            {
-                pdfStream.Dispose();
+                return false;
             }
         }
     }

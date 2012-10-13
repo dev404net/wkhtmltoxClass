@@ -3,3 +3,8 @@ Z:\Development\UrlToDocument\wkhtmltopdfClass\bin\wkhtmltopdfClass.pdb
 Z:\Development\UrlToDocument\wkhtmltopdfClass\obj\Debug\wkhtmltopdfClass.csprojResolveAssemblyReference.cache
 Z:\Development\UrlToDocument\wkhtmltopdfClass\obj\Debug\wkhtmltopdfClass.dll
 Z:\Development\UrlToDocument\wkhtmltopdfClass\obj\Debug\wkhtmltopdfClass.pdb
+Z:\Development\wkhtmltoxClass\wkhtmltopdfClass\bin\wkhtmltopdfClass.dll
+Z:\Development\wkhtmltoxClass\wkhtmltopdfClass\bin\wkhtmltopdfClass.pdb
+Z:\Development\wkhtmltoxClass\wkhtmltopdfClass\obj\Debug\wkhtmltopdfClass.csprojResolveAssemblyReference.cache
+Z:\Development\wkhtmltoxClass\wkhtmltopdfClass\obj\Debug\wkhtmltopdfClass.dll
+Z:\Development\wkhtmltoxClass\wkhtmltopdfClass\obj\Debug\wkhtmltopdfClass.pdb
