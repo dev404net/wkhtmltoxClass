@@ -2,3 +2,8 @@ Z:\Development\UrlToDocument\wkhtmltoimageClass\bin\wkhtmltoimageClass.dll
 Z:\Development\UrlToDocument\wkhtmltoimageClass\bin\wkhtmltoimageClass.pdb
 Z:\Development\UrlToDocument\wkhtmltoimageClass\obj\Debug\wkhtmltoimageClass.dll
 Z:\Development\UrlToDocument\wkhtmltoimageClass\obj\Debug\wkhtmltoimageClass.pdb
+Z:\Development\wkhtmltoxClass\wkhtmltoimageClass\bin\wkhtmltoimageClass.dll
+Z:\Development\wkhtmltoxClass\wkhtmltoimageClass\bin\wkhtmltoimageClass.pdb
+Z:\Development\wkhtmltoxClass\wkhtmltoimageClass\obj\Debug\wkhtmltoimageClass.csprojResolveAssemblyReference.cache
+Z:\Development\wkhtmltoxClass\wkhtmltoimageClass\obj\Debug\wkhtmltoimageClass.dll
+Z:\Development\wkhtmltoxClass\wkhtmltoimageClass\obj\Debug\wkhtmltoimageClass.pdb

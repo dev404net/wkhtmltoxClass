@@ -89,47 +89,5 @@ namespace wkhtmltoimageClass
                 }
             }
         }
-
-
-        /// <summary>
-        /// Creates an Image from a URL and returns the image directly as a memorystream.
-        /// No temp file is created.
-        /// Pros: No write permissions required on filesystem.
-        /// Cons: Barely works! Only a corrupted image is returned....
-        /// </summary>
-        /// <returns></returns>
-        public MemoryStream CreateImage(string CurrentUrl)
-        {
-            using (Process p = new Process())
-            {
-                MemoryStream MyStream = new MemoryStream();
-                try
-                {
-                    
-
-                    string switches = "";
-                    switches += "--page-size A4";
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.FileName = wkhtmlToImagePath;
-                    p.StartInfo.Arguments = " " + CurrentUrl + " -";
-                    p.Start();
-
-                    CopyStream(p.StandardOutput.BaseStream, MyStream);
-                    p.StandardOutput.ReadToEnd();
-                    p.WaitForExit();
-                    return MyStream;
-                }
-                catch
-                {
-                    return null;
-                }
-                finally
-                {
-                    MyStream.Dispose();
-                }
-            }
-        }
-
     }
 }
